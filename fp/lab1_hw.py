@@ -1,7 +1,7 @@
 import sys
 year = int(input("year:"))
 nr = int(input("day number:"))
-if nr > 366 or (nr > 365 and year % 4 != 0):
+if nr > 366 or (nr > 365 and year % 4 != 0) or nr < 0:
 	print('Invalid day number')
 	sys.exit()
 month = 0;
@@ -17,4 +17,4 @@ for i in range(12):
 		day = daysInMonth[i] - (abs(aux - nr))
 		break
 	aux += daysInMonth[i + 1]
-print("data:", year, '.', month, '.', day, sep = '')
+print("data:", year, '.', month, '.', day," (year.month.day)", sep = '')
