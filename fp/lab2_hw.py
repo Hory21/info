@@ -5,8 +5,8 @@ g_lst = []
 def readList():
     n = int(input("Numarul de elemente din lista: "))
     print("Elementele listei (cate unul pe linie):")
-    global g_list
-    g_list = []
+    global g_lst
+    g_lst = []
     for i in range(n):
         g_lst.append(int(input()))
 
@@ -29,33 +29,25 @@ def longestSecv(lst, propFunc):
     maxLen = 0
     secvIndex = 0
     for i in range(len(lst)):
-        for j in range(i + 1, len(lst)):
-            if len(lst[i:j + 1]) > maxLen and propFunc(lst[i:j + 1]):
+        for j in range(i + 1, len(lst) + 1):
+            if len(lst[i:j]) > maxLen and propFunc(lst[i:j]):
                 secvIndex = i
-                maxLen = len(lst[i:j + 1])
+                maxLen = len(lst[i:j])
     return lst[secvIndex:secvIndex + maxLen]
-
-"""
-    Functia ia ca parametru un nr. intreg si returneaza multimea
-    formata din cifrele numarului
-"""
-def splitNr(x):
-    x = abs(x)
-    return set(str(x))
 
 def checkProp2(lst):
     for i in range(len(lst) - 1):
-        if len(splitNr(lst[i]) & splitNr(lst[i + 1])) < 2:
+        if len(set(str(abs(lst[i]))) & set(str(abs(lst[i + 1])))) < 2:
             return False
     return True
 
 def menu():
     option = '0'
     while option != '4':
-        print("[1] Citire lista de numere intregi")
-        print("[2] Gasirea secventei de lungime maxima care contine cel mult 3 valori distincte")
-        print("[3] Gasirea secventei de lungime maxima ai carei oricare doua elemente consecutive au cel putin 2 cifre distincte comune")
-        print("[4] Iesire")
+        print("(1) Citire lista de numere intregi")
+        print("(2) Gasirea secventei de lungime maxima care contine cel mult 3 valori distincte")
+        print("(3) Gasirea secventei de lungime maxima ai carei oricare doua elemente consecutive au cel putin 2 cifre distincte comune")
+        print("(4) Iesire")
         option = input()
         if option == '1':
             readList()
