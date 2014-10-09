@@ -10,6 +10,10 @@ def readList():
     for i in range(n):
         g_lst.append(int(input()))
 
+"""
+    Functia verifica daca o lista contine cel mult 3 valori
+    distincte
+"""
 def checkProp1(lst):
     auxlst = []
     for element in lst:
@@ -35,6 +39,10 @@ def longestSecv(lst, propFunc):
                 maxLen = len(lst[i:j])
     return lst[secvIndex:secvIndex + maxLen]
 
+"""
+    Functia verifica daca lista lst are proprietatea ca oricare 2 elemente
+    consecutive sa aiba cel putin 2 cifre distincte comune
+"""
 def checkProp2(lst):
     for i in range(len(lst) - 1):
         if len(set(str(abs(lst[i]))) & set(str(abs(lst[i + 1])))) < 2:
