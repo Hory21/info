@@ -83,8 +83,68 @@ def updateTrans(lst, index, newDay, newAmount, newType):
     lst[index].update(newDay, newAmount, newType)
     return lst
 
+def test_deleteAllInPeriod():
+    l = []
+    o1 = Transaction(1, 100, 'iesire')
+    o2 = Transaction(2, 10, 'intrare')
+    o3 = Transaction(3, 100, 'intrare')
+    l.append(o1)
+    l.append(o2)
+    l.append(o3)
+    deleteAllInPeriod(l, 1, 2)
+    assert l[0].day == 3
+    assert l[0].amount == 100
+    assert l[0].typ == 'intrare'
+    assert len(l) == 1
+
+def deleteAllInPeriod(lst, day1, day2):
+    """
+    sterge toate tranzactiile din perioada day1 - day2
+    returneaza: lst din care tranzactiile din perioada day1 - day2 au fost sterse
+    lst: lista din care se sterge
+    day1: ziua de inceput
+    day2: ziua de sfarsit
+    precond: day1 <= day2
+    """
+    index = 0
+    while index < len(lst):
+        if lst[index].getDay() >= day1 and lst[index].getDay() <= day2:
+            lst.pop(index)
+            index -= 1
+        index += 1
+    return lst
+
+def test_deleteAllOfType():
+    l = []
+    o1 = Transaction(1, 100, 'iesire')
+    o2 = Transaction(2, 10, 'intrare')
+    o3 = Transaction(3, 100, 'intrare')
+    l.append(o1)
+    l.append(o2)
+    l.append(o3)
+    deleteAllOfType(l, 'intrare')
+    assert l[0].day == 1
+    assert len(l) == 1
+
+def deleteAllOfType(lst, typ):
+    """
+    functia sterge toate tranzactiile de tipul typ din lista lst
+    returneaza: lst, dupa ce din lst s-au sters tranzactiile cu tipul typ
+    lst: lista din care se sterge
+    typ: tipul elementelor care se vor sterge
+    """
+    i = 0
+    while i < len(lst):
+        if lst[i].typ == typ:
+            lst.pop(i)
+            i -= 1
+        i += 1
+    return lst
+
 test_addTrans()
 test_updateTrans()
+test_deleteAllInPeriod()
+test_deleteAllOfType()
 
 def printList(lst):
     """
@@ -103,12 +163,19 @@ def mainMenu():
         print('Meniu principal:')
         print('(1) Afiseaza tranzactiile (index, zi, suma, tip)')
         print('(2) Adauga/Actualizeaza tranzactie')
+        print('(3) Stergere')
+        print('(4) Cautari')
+        print('(5) Rapoarte')
+        print('(6) Filtrare')
+        print('(7) Undo (renunta la ultima modificare a tranzactiilor)')
         print('(0) Iesire')
         option = int(input())
         if option == 1:
             printList(transList)
         elif option == 2:
             menu1(transList)
+        elif option == 3:
+            menu2(transList)
         elif option != 0:
             print('Optiune gresita; incercati din nou')
 
@@ -133,6 +200,28 @@ def menu1(transList):
             amount = int(input('suma:'))
             typ = input('tipul (intrare/iesire):')
             updateTrans(transList, index, day, amount, typ)
+        elif option != 0:
+            print('Optiune gresita; incercati din nou')
+
+def menu2(transList):
+    option = 1
+    while option != 0:
+        print('(1) Sterge toate tranzactiile de la ziua specificata')
+        print('(2) Șterge tranzacțiile dintr-o perioadă dată \
+                (se dă ziua de început și sfârșit)')
+        print('(3) Sterge toate tranzactiile de un anumit tip')
+        print('(0) Inapoi')
+        option = int(input())
+        if option == 1:
+            day = int(input('ziua: '))
+            deleteAllInPeriod(transList, day, day)
+        elif option == 2:
+            day1 = int(input('ziua de inceput: '))
+            day2 = int(input('ziua de sfarsit: '))
+            deleteAllInPeriod(transList, day1, day2)
+        elif option == 3:
+            typ = input('tipul: ')
+            deleteAllOfType(transList, typ)
         elif option != 0:
             print('Optiune gresita; incercati din nou')
 
