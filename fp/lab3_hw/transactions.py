@@ -156,6 +156,41 @@ def printList(lst):
         i += 1
     print()
 
+def printTransHigherThan(lst, amount):
+    """
+    functia afiseaza toate tranzactiile cu sume mai mari strict decat amount
+    lst: (numar) lista din care se afiseaza tranzactii
+    amount: (numar) suma fata de care se afiseaza tranzactii
+    """
+    for trans in lst:
+        if trans.getAmount() > amount:
+            print(trans)
+    print()
+
+def printTransBeforeDayHigherThan(lst, day, amount):
+    """
+    functia scrie pe ecran toate tranzactiile din lst facute mai devreme de
+        day, si mai mari decat amount
+    lst: lista de tranzactii
+    day: (numar) ziua din care se afiseaza tranzactii
+    amount: (numar) suma fata de care se afiseaza tranzactii
+    """
+    for trans in lst:
+        if trans.getDay() < day and trans.getAmount() > amount:
+            print(trans)
+    print()
+
+def printTransOfType(lst, typ):
+    """
+    functia afiseaza toate tranzactie de tipul typ
+    typ: (string) tipul tranzactiilor care vor fi afisate
+    lst: lista din care se afiseaza tranzactii
+    """
+    for trans in lst:
+        if trans.getType() == typ:
+            print(trans)
+    print()
+
 def mainMenu():
     transList = []
     option = 1
@@ -176,6 +211,8 @@ def mainMenu():
             menu1(transList)
         elif option == 3:
             menu2(transList)
+        elif option == 4:
+            menu3(transList)
         elif option != 0:
             print('Optiune gresita; incercati din nou')
 
@@ -207,8 +244,8 @@ def menu2(transList):
     option = 1
     while option != 0:
         print('(1) Sterge toate tranzactiile de la ziua specificata')
-        print('(2) Șterge tranzacțiile dintr-o perioadă dată \
-                (se dă ziua de început și sfârșit)')
+        print('(2) Șterge tranzacțiile dintr-o perioadă dată',
+                '(se dă ziua de început și sfârșit)')
         print('(3) Sterge toate tranzactiile de un anumit tip')
         print('(0) Inapoi')
         option = int(input())
@@ -222,6 +259,25 @@ def menu2(transList):
         elif option == 3:
             typ = input('tipul: ')
             deleteAllOfType(transList, typ)
+        elif option != 0:
+            print('Optiune gresita; incercati din nou')
+
+def menu3(transList):
+    option = 1
+    while option != 0:
+        print('(1) Tipărește tranzacțiile cu sume mai mari decăt o sumă dată')
+        print('(2) Tipărește toate tranzacțiile efectuate înainte de o zi și',
+                'mai mari decât o sumă (se dă suma și ziua)')
+        print('(3) Tipărește tranzacțiile de un anumit tip')
+        print('(0) Inapoi')
+        option = int(input())
+        if option == 1:
+            printTransHigherThan(transList, int(input('suma: ')))
+        elif option == 2:
+            printTransBeforeDayHigherThan(transList, int(input('ziua: ')),
+                    int(input('suma: ')))
+        elif option == 3:
+            printTransOfType(transList, input('tipul: '))
         elif option != 0:
             print('Optiune gresita; incercati din nou')
 
