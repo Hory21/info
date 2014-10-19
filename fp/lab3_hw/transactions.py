@@ -141,10 +141,96 @@ def deleteAllOfType(lst, typ):
         i += 1
     return lst
 
+def test_sumOfTypeTrans():
+    l = []
+    o1 = Transaction(1, 100, 'iesire')
+    o2 = Transaction(2, 10, 'intrare')
+    o3 = Transaction(3, 100, 'intrare')
+    l.append(o1)
+    l.append(o2)
+    l.append(o3)
+    assert sumOfTypeTrans(l, 'intrare') == 110
+    assert sumOfTypeTrans(l, 'iesire') == 100
+
+def sumOfTypeTrans(lst, typ):
+    """
+    functia calculeaza suma tuturor tranzactiilor de tipul typ din lista lst
+    returneaza: suma respectiva
+    lst: lista in care se gasesc tranzactii
+    typ: tipul tranzactiilor a caror suma se va calcula
+    """
+    summ = 0
+    for trans in lst:
+        if trans.getType() == typ:
+            summ += trans.getAmount()
+    return summ
+
+def test_balanceOnDate():
+    l = []
+    o1 = Transaction(1, 100, 'iesire')
+    o2 = Transaction(2, 10, 'intrare')
+    o3 = Transaction(3, 100, 'intrare')
+    l.append(o1)
+    l.append(o2)
+    l.append(o3)
+    assert balanceOnDate(l, 1) == -100
+    assert balanceOnDate(l, 2) == -90
+    assert balanceOnDate(l, 3) == 10
+
+def balanceOnDate(lst, day):
+    """
+    functia calculeaza si returneaza soldul contului din ziua day
+    daca in ziua day s-a facut vreo tranzactie, aceasta VA FI si ea luata in
+        calcul
+    lst: lista cu tranzactii
+    day: ziua a carui sold va fi afisat
+    """
+    balance = 0
+    for trans in lst:
+        if trans.getDay() <= day:
+            if trans.getType() == 'intrare':
+                balance += trans.getAmount()
+            if trans.getType() == 'iesire':
+                balance -= trans.getAmount()
+    return balance
+
+def test_getAllTransOfType_orderByAmount():
+    l = []
+    o1 = Transaction(1, 100, 'iesire')
+    o2 = Transaction(2, 10, 'intrare')
+    o3 = Transaction(3, 1, 'intrare')
+    l.append(o1)
+    l.append(o2)
+    l.append(o3)
+    o4 = o2
+    o5 = o3
+    auxLst = []
+    auxLst.append(o5)
+    auxLst.append(o4)
+    assert getAllTransOfType_orderByAmount(l, 'intrare') == auxLst
+
+def getAllTransOfType_orderByAmount(lst, typ):
+    """
+    functia cauta toate tranzactiile de tipul typ din lista lst, le sorteaza
+        dupa suma (amount) si returneaza lista care le contine pe acestea
+    lst: lista in care se cauta tranzactii
+    typ: tipul tranzactiilor care se vor returna
+    postcond: o lista cu tranzactii, unde acestea sunt sortate crescator
+        dupa suma
+    """
+    auxLst = []
+    for trans in lst:
+        if trans.getType() == typ:
+            auxLst.append(trans)
+    return sorted(auxLst, key = lambda trans: trans.amount)
+
 test_addTrans()
 test_updateTrans()
 test_deleteAllInPeriod()
 test_deleteAllOfType()
+test_sumOfTypeTrans()
+test_balanceOnDate()
+test_getAllTransOfType_orderByAmount()
 
 def printList(lst):
     """
@@ -213,6 +299,8 @@ def mainMenu():
             menu2(transList)
         elif option == 4:
             menu3(transList)
+        elif option == 5:
+            menu4(transList)
         elif option != 0:
             print('Optiune gresita; incercati din nou')
 
@@ -278,6 +366,28 @@ def menu3(transList):
                     int(input('suma: ')))
         elif option == 3:
             printTransOfType(transList, input('tipul: '))
+        elif option != 0:
+            print('Optiune gresita; incercati din nou')
+
+def menu4(transList):
+    option = 1
+    while option != 0:
+        print('(1) Afiseaza suma totală a tranzacțiilor de un anumit tip')
+        print('(2) Afiseaza soldul contului la o dată specificată')
+        print('(3) Tipărește toate tranzacțiile de un anumit tip ordonate după sumă')
+        print('(0) Inapoi')
+        option = int(input())
+        if option == 1:
+            typ = input('tipul: ')
+            print('Suma totala a tranzactiilor de', typ, 'este',
+                    sumOfTypeTrans(transList, typ))
+        elif option == 2:
+            date = int(input('data: '))
+            print('Soldul contului pe data de', date, 'este',
+                    balanceOnDate(transList, date))
+        elif option == 3:
+            typ = input('tip: ')
+            printList(getAllTransOfType_orderByAmount(transList, typ))
         elif option != 0:
             print('Optiune gresita; incercati din nou')
 
