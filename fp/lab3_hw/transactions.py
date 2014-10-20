@@ -262,6 +262,33 @@ def filterAllOfType(lst, typ):
             auxLst.append(trans)
     return auxLst
 
+def test_filterAllLesserThan():
+    l = []
+    o1 = Transaction(1, 100, 'iesire')
+    o2 = Transaction(2, 10, 'intrare')
+    o3 = Transaction(3, 1, 'intrare')
+    l.append(o1)
+    l.append(o2)
+    l.append(o3)
+    auxList = []
+    auxList.append(o1)
+    assert filterAllLesserThan(l, 66) == auxList
+
+def filterAllLesserThan(lst, amount):
+    """
+    functia filtreaza lista lst, eliminand tranzactiile cu sume mai mici
+        decat amount
+    amount: suma in functie de care se face filtrarea
+    lst: lista de tranzactii
+    returneaza: o lista care contine toate tranzactiile din lst care au suma
+        mai mare (sau egala) decat amount
+    """
+    auxLst = []
+    for trans in lst:
+        if trans.getAmount() >= amount:
+            auxLst.append(trans)
+    return auxLst
+
 test_addTrans()
 test_updateTrans()
 test_deleteAllInPeriod()
@@ -270,6 +297,7 @@ test_sumOfTypeTrans()
 test_balanceOnDate()
 test_getAllTransOfType_orderByAmount()
 test_filterAllOfType()
+test_filterAllLesserThan()
 
 def printList(lst):
     """
@@ -462,6 +490,11 @@ def menu5(transList):
         if option == 1:
             typ = input('tip: ')
             printList(filterAllOfType(transList, typ))
+            print()
+        elif option == 2:
+            amount = int(input('suma: '))
+            typ = input('tip: ')
+            print(filterAllLesserThan(filterAllOfType(transList, typ), amount))
             print()
         elif option != 0:
             print('Optiune gresita; incercati din nou')
