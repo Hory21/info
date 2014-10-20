@@ -236,6 +236,32 @@ def getAllTransOfType_orderByAmount(lst, typ):
             auxLst.append(trans)
     return sorted(auxLst, key = lambda trans: trans.amount)
 
+def test_filterAllOfType():
+    l = []
+    auxLst = []
+    o1 = Transaction(1, 100, 'iesire')
+    o2 = Transaction(2, 10, 'intrare')
+    o3 = Transaction(3, 1, 'intrare')
+    l.append(o1)
+    l.append(o2)
+    l.append(o3)
+    auxLst.append(o1)
+    assert filterAllOfType(l, 'intrare') == auxLst
+
+def filterAllOfType(lst, typ):
+    """
+    functia filtreaza lista lst, eliminand tranzactiile de tipul typ
+    typ: tipul tranzactiilor filtrate
+    lst: lista de tranzactii
+    returneaza: o lista care contine toate tranzactiile din lst care NU au 
+        tipul typ
+    """
+    auxLst = []
+    for trans in lst:
+        if trans.getType() != typ:
+            auxLst.append(trans)
+    return auxLst
+
 test_addTrans()
 test_updateTrans()
 test_deleteAllInPeriod()
@@ -243,6 +269,7 @@ test_deleteAllOfType()
 test_sumOfTypeTrans()
 test_balanceOnDate()
 test_getAllTransOfType_orderByAmount()
+test_filterAllOfType()
 
 def printList(lst):
     """
@@ -316,6 +343,8 @@ def mainMenu():
             menu3(transList)
         elif option == 5:
             menu4(transList)
+        elif option == 6:
+            menu5(transList)
         elif option != 0:
             print('Optiune gresita; incercati din nou')
 
@@ -401,7 +430,8 @@ def menu4(transList):
     while option != 0:
         print('(1) Afiseaza suma totală a tranzacțiilor de un anumit tip')
         print('(2) Afiseaza soldul contului la o dată specificată')
-        print('(3) Tipărește toate tranzacțiile de un anumit tip ordonate după sumă')
+        print('(3) Tipărește toate tranzacțiile de un anumit tip',
+                'ordonate după sumă')
         print('(0) Inapoi')
         option = int(input())
         if option == 1:
@@ -415,6 +445,24 @@ def menu4(transList):
         elif option == 3:
             typ = input('tip: ')
             printList(getAllTransOfType_orderByAmount(transList, typ))
+        elif option != 0:
+            print('Optiune gresita; incercati din nou')
+
+def menu5(transList):
+    """
+    meniu filtrare
+    """
+    option = 1
+    while option != 0:
+        print('(1) Filtrare tip (se elimină toate tranzacțiile de un anumit tip)')
+        print('(2) Filtrare tip, suma (se elimina toate tranzacțiile',
+                'mai mici decăt o sumă dată care au tipul specificat)')
+        print('(0) Inapoi')
+        option = int(input())
+        if option == 1:
+            typ = input('tip: ')
+            printList(filterAllOfType(transList, typ))
+            print()
         elif option != 0:
             print('Optiune gresita; incercati din nou')
 
