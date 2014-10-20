@@ -29,15 +29,27 @@ class Transaction:
         self.typ = typ
 
     def getCn(self):
+        """
+        functia returneaza numarul curent al unei tranzactii
+        """
         return self.cn
 
     def getDay(self):
+        """
+        functia returneaza ziua in care s-a facut o tranzactie
+        """
         return self.day
 
     def getAmount(self):
+        """
+        functia returneaza suma unei tranzactii
+        """
         return self.amount
 
     def getType(self):
+        """
+        functia returneaza tipul unei tranzactii
+        """
         return self.typ
 
 def test_addTrans():
@@ -278,6 +290,9 @@ def printTransOfType(lst, typ):
     print()
 
 def mainMenu():
+    """
+    meniul principal; de aici se incepe rularea programului
+    """
     transList = []
     option = 1
     while option != 0:
@@ -305,6 +320,9 @@ def mainMenu():
             print('Optiune gresita; incercati din nou')
 
 def menu1(transList):
+    """
+    meniu de adaugare/actualizare tranzactii
+    """
     option = 1
     while option != 0:
         print('(1) Adaugare tranzactie noua')
@@ -329,6 +347,9 @@ def menu1(transList):
             print('Optiune gresita; incercati din nou')
 
 def menu2(transList):
+    """
+    meniu de stergere tranzactii
+    """
     option = 1
     while option != 0:
         print('(1) Sterge toate tranzactiile de la ziua specificata')
@@ -351,6 +372,9 @@ def menu2(transList):
             print('Optiune gresita; incercati din nou')
 
 def menu3(transList):
+    """
+    meniu de cautare tranzactii
+    """
     option = 1
     while option != 0:
         print('(1) Tipărește tranzacțiile cu sume mai mari decăt o sumă dată')
@@ -370,6 +394,9 @@ def menu3(transList):
             print('Optiune gresita; incercati din nou')
 
 def menu4(transList):
+    """
+    meniu de rapoarte
+    """
     option = 1
     while option != 0:
         print('(1) Afiseaza suma totală a tranzacțiilor de un anumit tip')
