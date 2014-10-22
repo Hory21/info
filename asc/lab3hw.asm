@@ -6,6 +6,7 @@ data segment
 	h dw 185
 	yy dw 95
 	d db 1
+	rez dw 0
 data ends
 code segment
 start:
@@ -14,7 +15,7 @@ start:
 
 	mov dx, h
 	add dx, 128 ; dx = h + 128 (acum, in dx se afla rezultatul primei paranteze)
-	mov dx, rez ; rez = h + 128
+	mov rez, dx ; rez = h + 128
 	mov al, m
 	mov ah, 0
 	mov dx, ax ; dx = m
