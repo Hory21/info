@@ -52,6 +52,36 @@ class Transaction:
         """
         return self.typ
 
+def checkDay(day):
+    """
+    functia verifica daca ziua day este valida (intre 0 si 31)
+    day: numar intreg
+    returneaza: true, daca ziua este valida; false altfel
+    """
+    if day >= 1 and day <= 31:
+        return True
+    return False
+
+def checkType(typ):
+    """
+    functia verifica daca tipul typ este 'intrare' sau 'iesire'
+    typ: string
+    returneaza: true daca tipul este valid, false altfel
+    """
+    if typ == 'intrare' or typ == 'iesire':
+        return True
+    return False
+
+def checkAmount(amount):
+    """
+    functia verifica daca amount este o suma valida (> 0)
+    amount: numar intreg
+    returneaza: true daca amount e strict pozitiv, false altfel
+    """
+    if amount > 0:
+        return True
+    return False
+
 def test_addTrans():
     l = []
     o = Transaction(9, 100, 'intrare')
@@ -388,8 +418,19 @@ def menu1(transList):
         option = int(input())
         if option == 1:
             day = int(input('ziua:'))
+            if not checkDay(day):
+                print('ziua invalida (ziua trebuie sa fie un numar intreg cu)',
+                        'valori intre 1 si 31')
+                continue
             amount = int(input('suma:'))
+            if not checkAmount(amount):
+                print('suma invalida (suma trebuie sa fie o valoare',
+                        'strict pozitiva)')
+                continue
             typ = input('tipul (intrare/iesire):')
+            if not checkType(typ):
+                print("tip invalid (tipul poate fi doar 'intrare' si 'iesire')")
+                continue
             addTrans(transList, Transaction(day, amount, typ))
         elif option == 2:
             index = int(input('indexul tranzactiei care va fi modificata:'))
@@ -397,8 +438,19 @@ def menu1(transList):
                 print('Tranzactia cu numarul de ordine', index, 'nu exista!')
                 continue
             day = int(input('ziua:'))
+            if not checkDay(day):
+                print('ziua invalida (ziua trebuie sa fie un numar intreg cu)',
+                    'valori intre 1 si 31')
+                continue
             amount = int(input('suma:'))
+            if not checkAmount(amount):
+                print('suma invalida (suma trebuie sa fie o valoare',
+                    'strict pozitiva)')
+                continue
             typ = input('tipul (intrare/iesire):')
+            if not checkType(typ):
+                print("tip invalid (tipul poate fi doar 'intrare' si 'iesire')")
+                continue
             updateTrans(transList, index, day, amount, typ)
         elif option != 0:
             print('Optiune gresita; incercati din nou')
@@ -417,13 +469,25 @@ def menu2(transList):
         option = int(input())
         if option == 1:
             day = int(input('ziua: '))
+            if not checkDay(day):
+                print('zi invalida')
+                continue
             deleteAllInPeriod(transList, day, day)
         elif option == 2:
             day1 = int(input('ziua de inceput: '))
+            if not checkDay(day1):
+                print('zi invalida')
+                continue
             day2 = int(input('ziua de sfarsit: '))
+            if not checkDay(day):
+                print('zi invalida')
+                continue
             deleteAllInPeriod(transList, day1, day2)
         elif option == 3:
             typ = input('tipul: ')
+            if not checkType(typ):
+                print('tip invalida')
+                continue
             deleteAllOfType(transList, typ)
         elif option != 0:
             print('Optiune gresita; incercati din nou')
